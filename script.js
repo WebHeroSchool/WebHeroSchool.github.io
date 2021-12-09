@@ -14,7 +14,7 @@ return name;
 let names = getNameFromUrl(url);
 
 const getName = new Promise((resolve,reject)=>{
-  setTimeout(()=> name ? resolve(name) : reject('Пользователь не найден'),3000)
+  setTimeout(()=> names ? resolve(names) : reject('Пользователь не найден'),3000)
 });
 
 const getUrl = new Promise((resolve,reject)=>{
