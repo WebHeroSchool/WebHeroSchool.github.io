@@ -1,5 +1,5 @@
 let body = document.body;
-let url = let url = window.location.toString();
+let url = window.location.toString();
 //let name = 'Uleva';
 
 const getNameFromUrl = (url) => {
