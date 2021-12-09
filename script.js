@@ -6,7 +6,6 @@ const getNameFromUrl = (url) => {
   let getUrl = url.split('=');
   let name = getUrl[1];
   if(name == undefined)
-  //if(getUrl[1]){
   name = 'Uleva';
   }
 return name;
