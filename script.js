@@ -1,34 +1,23 @@
 let body = document.body;
-let url = 'https://api.github.com/users/';
-let name = 'Uleva';
+let url = window.location.toString();
 
 const getNameFromUrl = (url) => {
   let getUrl = url.split('=');
-  //let name = getUrl[1];
-  //if(name == undefined)
-  if(getUrl[1]){
-  name = getUrl[1];
+  let name = getUrl[1];
+  if(name == undefined) {
+  name = 'Uleva';
   }
 return name;
 }
-let names = getNameFromUrl(url);
 
-const getName = new Promise((resolve,reject)=>{
-  setTimeout(()=> name ? resolve(name) : reject('Пользователь не найден'),3000)
-});
-
-const getUrl = new Promise((resolve,reject)=>{
-  setTimeout(()=> url ? resolve(url) : reject('Недоступен url'),2000)
-});
-Promise.all([getName,getUrl])
-.then(([names,url]) => fetch(`${url}${names}`))
-.then(res=>res.json())
-.then(json => {
-      console.log(json.avatar_url);
-      console.log(json.name);
-      console.log(json.bio);
-      console.log(json.html_url);
-      let photo = new Image();
+fetch(`https://api.github.com/users/${getNameFromUrl(url)}`)
+    .then(res => res.json())
+    .then(json => {
+        console.log(json.avatar_url);
+        console.log(json.name);
+        console.log(json.bio);
+        console.log(json.html_url);
+        let photo = new Image();
         photo.src = json.avatar_url;
         body.append(photo);
         let name = document.createElement('p');
@@ -50,4 +39,4 @@ Promise.all([getName,getUrl])
 
         name.addEventListener("click", () => window.location = json.html_url);
     })
-    .catch(err=>console.log(err));
+    .catch(err => alert('Информация о пользователе недоступна'));
