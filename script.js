@@ -5,22 +5,21 @@ let url = window.location.toString();
 const getNameFromUrl = (url) => {
   let getUrl = url.split('=');
   let name = getUrl[1];
-  if(name == undefined)
+  if(name == undefined){
   name = 'Uleva';
   }
 return name;
 }
-let names = getNameFromUrl(url);
 
 const getName = new Promise((resolve,reject)=>{
-  setTimeout(()=> names ? resolve(names) : reject('Пользователь не найден'),3000)
+  setTimeout(()=> getNameFromUrl(url) ? resolve(getNameFromUrl(url)) : reject('Пользователь не найден'),3000)
 });
 
 const getUrl = new Promise((resolve,reject)=>{
   setTimeout(()=> url ? resolve(url) : reject('Недоступен url'),2000)
 });
 Promise.all([getName,getUrl])
-.then(([names,url]) => fetch(`https://api.github.com/users/${names}`))
+.then(([names,url]) => fetch(`https://api.github.com/users/${getNameFromUrl(url)}`))
 .then(res=>res.json())
 .then(json => {
       console.log(json.avatar_url);
