@@ -1,6 +1,5 @@
 let body = document.body;
 let url = window.location.toString();
-//let name = 'Uleva';
 
 const getNameFromUrl = (url) => {
   let getUrl = url.split('=');
