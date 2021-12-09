@@ -1,5 +1,7 @@
 let body = document.body;
 let url = window.location.toString();
+let ursl = https://api.github.com/users/;
+//let name = 'Uleva';
 
 const getNameFromUrl = (url) => {
   let getUrl = url.split('=');
@@ -18,7 +20,7 @@ const getUrl = new Promise((resolve,reject)=>{
   setTimeout(()=> url ? resolve(url) : reject('Недоступен url'),2000)
 });
 Promise.all([getName,getUrl])
-.then(([names,url]) => fetch(`https://api.github.com/users/${getNameFromUrl(url)}`))
+.then(([names,ursl]) => fetch(`${ursl}${getNameFromUrl(url)}`))
 .then(res=>res.json())
 .then(json => {
       console.log(json.avatar_url);
