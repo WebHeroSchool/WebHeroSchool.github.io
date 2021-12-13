@@ -14,7 +14,7 @@ const getTime = new Promise ((resolve, reject) => {
   setTimeout(()=> resolve(new Date()), 2000)
 })
 
-const getUser = fetch (`https://api.github.com/users${getNameFromUrl(url)}`);
+const getUser = fetch(`https://api.github.com/users/${getNameFromUrl(url)}`);
 
 Promise.all([getUser, getTime])
   .then (([res,date])=>{
