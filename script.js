@@ -1,5 +1,6 @@
   let body = document.body;
   let url = window.location.toString();
+  let preloaderEl = document.getElementById('preloader');
 
   const getNameFromUrl = (url) => {
   let getUrl = url.split('=');
@@ -17,18 +18,25 @@ const getTime = new Promise ((resolve, reject) => {
 const getUser = fetch(`https://api.github.com/users/${getNameFromUrl(url)}`);
 
 Promise.all([getUser, getTime])
-  .then (([res,date])=>{
+  .then(([res,date])=>{
 
-  let hours = date.getHours();
-  let minutes= date.getMinutes();
-  let seconds= date.getSeconds();
-  console.log( hours + ':' + minutes + ':' + seconds);
+  let day = date.getDate()
+  let month = date.getMonth();
+  let year = date.getFullYear();
+  let data =  document.createElement('h1');
+  data.innerHTML = 'Дата: '+ day + '.' + month + '.' + year;
+  body.append(data);
+
+  return res.json()
 })
-.then(json => {
+
+  .then(json => {
+    preloaderEl.classList.add('hidden');
       console.log(json.avatar_url);
       console.log(json.name);
       console.log(json.bio);
       console.log(json.html_url);
+
         let photo = new Image();
         photo.src = json.avatar_url;
         body.append(photo);
