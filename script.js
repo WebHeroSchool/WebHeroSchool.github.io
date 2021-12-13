@@ -17,7 +17,6 @@ const getTime = new Promise ((resolve, reject) => {
 const getUser = fetch (`https://api.github.com/users${getNameFromUrl(url)}`);
 
 Promise.all([getUser, getTime])
-  .then([res,time])=>res.json())
   .then (([res,date])=>{
 
   let hours = date.getHours();
