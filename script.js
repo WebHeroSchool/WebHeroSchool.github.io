@@ -1,7 +1,5 @@
 let body = document.body;
 let url = window.location.toString();
-let ursl = https://api.github.com/users/;
-//let name = 'Uleva';
 
 const getNameFromUrl = (url) => {
   let getUrl = url.split('=');
@@ -12,16 +10,19 @@ const getNameFromUrl = (url) => {
 return name;
 }
 
-const getName = new Promise((resolve,reject)=>{
-  setTimeout(()=> getNameFromUrl(url) ? resolve(getNameFromUrl(url)) : reject('Пользователь не найден'),3000)
-});
+const getTime = new Promise ((resolve, reject) => {setTimeout (()=> resolve(new Date()), 2000)
+})
 
-const getUrl = new Promise((resolve,reject)=>{
-  setTimeout(()=> url ? resolve(url) : reject('Недоступен url'),2000)
-});
-Promise.all([getName,getUrl])
-.then(([names,ursl]) => fetch(`${ursl}${getNameFromUrl(url)}`))
-.then(res=>res.json())
+const getUser = fetch (`https://api.github.com/users${getNameFromUrl(url)}`)
+
+Promise.all([getTime,getUser])
+.then([res,time])=>res.json())
+.then (([res,date])=>{
+  let hours = date.getHours();
+  let minutes= date.getMinutes();
+  let seconds= date.getSeconds();
+  console.log( hours + ':' + minutes + ':' + seconds);
+})
 .then(json => {
       console.log(json.avatar_url);
       console.log(json.name);
