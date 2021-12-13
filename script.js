@@ -12,7 +12,8 @@
 }
 
 const getTime = new Promise ((resolve, reject) => {
-  setTimeout(()=> resolve(new Date()), 2000)
+  setTimeout(()=> resolve(new Date()), 2000);
+  setTimeout(()=> reject('Ошибка в дате!'),3000);
 })
 
 const getUser = fetch(`https://api.github.com/users/${getNameFromUrl(url)}`);
