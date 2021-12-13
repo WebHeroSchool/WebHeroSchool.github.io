@@ -1,63 +1,43 @@
-  let body = document.body;
-  let url = window.location.toString();
-  let preloaderEl = document.getElementById('preloader');
+let body = document.body;
+let url = window.location.toString();
 
-  const getNameFromUrl = (url) => {
-  let getUrl = url.split('=');
-  let name = getUrl[1];
-  if(name == undefined){
-    name = 'Uleva';
-  }
-    return name;
-}
+	const getNameFromUrl = (url) => {
+	  let getUrl = url.split('=');
+	  let name = getUrl[1];
+	  if(name == undefined) {
+  	name = 'Uleva';
+	  }
+	return name;
+	}
 
-const getTime = new Promise ((resolve, reject) => {
-  setTimeout(()=> resolve(new Date()), 2000)
-})
+	fetch(`https://api.github.com/users/${getNameFromUrl(url)}`)
+  	.then(res => res.json())
+	  .then(json => {
+	    console.log(json.avatar_url);
+	    console.log(json.name);
+     	console.log(json.bio);
+    	console.log(json.html_url);
 
-const getUser = fetch(`https://api.github.com/users/${getNameFromUrl(url)}`);
+	    let photo = new Image();
+    	photo.src = json.avatar_url;
+    	body.append(photo);
 
-Promise.all([getUser, getTime])
-  .then(([res,date])=>{
+    	let name = document.createElement('p');
+    	if (json.name != null) {
+    	name.innerHTML = json.name;
+    	} else {
+	    name.innerHTML = 'Информация о пользователе недоступна или не указана';
+	    }
+	    body.append(name);
+    	name.addEventListener("click", () => window.location = 'https://webheroschool.github.io/Uleva/');
 
-  let day = date.getDate()
-  let month = date.getMonth();
-  let year = date.getFullYear();
-  let data =  document.createElement('h1');
-  data.innerHTML = 'Дата: '+ day + '.' + month + '.' + year;
-  body.append(data);
+     	let bio = document.createElement('p');
+    	if (json.bio != null) {
+    	bio.innerHTML = json.bio;
+     	} else {
+    	bio.innerHTML = 'Информация о пользователе недоступна или не указана';
+    	}
+    	body.append(bio);
+	})
 
-  return res.json()
-})
-
-  .then(json => {
-    preloaderEl.classList.add('hidden');
-      console.log(json.avatar_url);
-      console.log(json.name);
-      console.log(json.bio);
-      console.log(json.html_url);
-
-        let photo = new Image();
-        photo.src = json.avatar_url;
-        body.append(photo);
-
-        let name = document.createElement('p');
-        if (json.name != null) {
-            name.innerHTML = json.name;
-        } else {
-            name.innerHTML = 'Информация о пользователе недоступна';
-        }
-        body.append(name);
-
-        let bio = document.createElement('p');
-        bio.classList.add('link');
-        if (json.bio != null) {
-            bio.innerHTML = json.bio;
-        } else {
-            bio.innerHTML = 'Информация о пользователе недоступна';
-        }
-        body.append(bio);
-
-        name.addEventListener("click", () => window.location = json.html_url);
-    })
-    .catch(err=>console.log(err));
+	.catch(err => alert('Информация о пользователе недоступна'));
