@@ -10,14 +10,16 @@ const getNameFromUrl = (url) => {
 return name;
 }
 
-const getTime = new Promise ((resolve, reject) => {setTimeout (()=> resolve(new Date()), 2000)
+const getTime = new Promise ((resolve, reject) => {
+  setTimeout(()=> resolve(new Date()), 2000)
 })
 
-const getUser = fetch (`https://api.github.com/users${getNameFromUrl(url)}`)
+const getUser = fetch (`https://api.github.com/users${getNameFromUrl(url)}`);
 
-Promise.all([getTime,getUser])
-.then([res,time])=>res.json())
-.then (([res,date])=>{
+Promise.all([getUser, getTime])
+  .then([res,time])=>res.json())
+  .then (([res,date])=>{
+
   let hours = date.getHours();
   let minutes= date.getMinutes();
   let seconds= date.getSeconds();
